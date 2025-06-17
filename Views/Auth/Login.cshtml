@@ -1,0 +1,9 @@
+@model LoginViewModel
+<h2>Login</h2>
+<form asp-action="Login" method="post">
+    <input asp-for="Email" placeholder="Email" />
+    <input asp-for="Password" placeholder="Password" type="password" />
+    <input asp-for="RememberMe" type="checkbox" /> Remember Me
+    <button type="submit">Login</button>
+</form>
+<a asp-controller="Auth" asp-action="Register">Don't have an account? Register</a>
