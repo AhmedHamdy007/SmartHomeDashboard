@@ -230,3 +230,10 @@ C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\obj\Debug\net9.0\refi
 C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\obj\Debug\net9.0\SmartHomeDashboard.pdb
 C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\obj\Debug\net9.0\SmartHomeDashboard.genruntimeconfig.cache
 C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\obj\Debug\net9.0\ref\SmartHomeDashboard.dll
+C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\bin\Debug\net9.0\publish\web.config
+C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\bin\Debug\net9.0\publish\appsettings.Development.json
+C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\bin\Debug\net9.0\publish\appsettings.json
+C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\bin\Debug\net9.0\publish\SmartHomeDashboard.deps.json
+C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\bin\Debug\net9.0\publish\SmartHomeDashboard.runtimeconfig.json
+C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\bin\Debug\net9.0\publish\SmartHomeDashboard.staticwebassets.endpoints.json
+C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\obj\Debug\net9.0\SmartHomeDashboard.sourcelink.json

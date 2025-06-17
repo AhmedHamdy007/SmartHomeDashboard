@@ -5915,11 +5915,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\Smarthomedashboard\\SmartHomeDashboard.csproj",
+      "projectUniqueName": "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\SmartHomeDashboard\\SmartHomeDashboard.csproj",
       "projectName": "SmartHomeDashboard",
-      "projectPath": "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\Smarthomedashboard\\SmartHomeDashboard.csproj",
+      "projectPath": "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\SmartHomeDashboard\\SmartHomeDashboard.csproj",
       "packagesPath": "C:\\Users\\Ahmed\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\Smarthomedashboard\\obj\\",
+      "outputPath": "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\SmartHomeDashboard\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ahmed\\AppData\\Roaming\\NuGet\\NuGet.Config"

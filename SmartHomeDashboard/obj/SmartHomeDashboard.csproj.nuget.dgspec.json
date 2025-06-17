@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\SmartHomeDashboard\\SmartHomeDashboard.csproj": {}
+    "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\smarthomedashboard\\SmartHomeDashboard.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\SmartHomeDashboard\\SmartHomeDashboard.csproj": {
+    "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\smarthomedashboard\\SmartHomeDashboard.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\SmartHomeDashboard\\SmartHomeDashboard.csproj",
+        "projectUniqueName": "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\smarthomedashboard\\SmartHomeDashboard.csproj",
         "projectName": "SmartHomeDashboard",
-        "projectPath": "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\SmartHomeDashboard\\SmartHomeDashboard.csproj",
+        "projectPath": "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\smarthomedashboard\\SmartHomeDashboard.csproj",
         "packagesPath": "C:\\Users\\Ahmed\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\SmartHomeDashboard\\obj\\",
+        "outputPath": "C:\\Users\\Ahmed\\Downloads\\SMARTDASHBOARD\\smarthomedashboard\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ahmed\\AppData\\Roaming\\NuGet\\NuGet.Config"
