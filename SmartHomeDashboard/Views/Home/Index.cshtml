@@ -1,0 +1,8 @@
+@if (!(ViewBag.IsTuyaLinked as bool? ?? false))
+{
+    <a class="btn btn-primary" href="/Auth/LinkTuyaAccount">Link Tuya Account</a>
+}
+else
+{
+    <p class="text-success"><i class="bi bi-check-circle-fill"></i> Tuya account linked.</p>
+}
