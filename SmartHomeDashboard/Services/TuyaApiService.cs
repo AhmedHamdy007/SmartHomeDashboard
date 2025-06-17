@@ -210,24 +210,24 @@ namespace SmartHomeDashboard.Services
             }
         }
 
-        // 🔑 API INTEGRATION POINT 7: Get Tuya Auth URL
+        // 🔑 API INTEGRATION POINT 7: Get Tuya Auth URL - FIXED
         public async Task<string> GetTuyaAuthUrlAsync(string state)
         {
             var clientId = _configuration["TuyaApi:ClientId"];
             var redirectUri = _configuration["TuyaApi:RedirectUri"];
-            var baseUrl = _configuration["TuyaApi:BaseUrl"];
             
-            var authUrl = $"{baseUrl}/v1.0/oauth2/authorize" +
+            // FIXED: Use the correct Tuya OAuth endpoint
+            var authUrl = $"https://iot.tuya.com/oauth2/authorize" +
                          $"?client_id={clientId}" +
                          $"&response_type=code" +
                          $"&redirect_uri={Uri.EscapeDataString(redirectUri!)}" +
-                         $"&state={state}" +
-                         $"&scope=user:read device:read device:write";
+                         $"&state={state}";
             
+            _logger.LogInformation("Generated Tuya auth URL: {AuthUrl}", authUrl);
             return authUrl;
         }
 
-        // 🔑 API INTEGRATION POINT 8: Exchange Code for Token
+        // 🔑 API INTEGRATION POINT 8: Exchange Code for Token - FIXED
         public async Task<TuyaTokenResponse> ExchangeCodeForTokenAsync(string code)
         {
             var clientId = _configuration["TuyaApi:ClientId"];
@@ -235,17 +235,20 @@ namespace SmartHomeDashboard.Services
             var redirectUri = _configuration["TuyaApi:RedirectUri"];
             
             var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
-            var signString = clientId + timestamp;
-            var sign = ComputeHmacSha256(signString, clientSecret!);
-
-            var tokenRequest = new
+            
+            // FIXED: Use correct request body format
+            var requestBody = new Dictionary<string, string>
             {
-                grant_type = "authorization_code",
-                code = code,
-                redirect_uri = redirectUri
+                ["grant_type"] = "authorization_code",
+                ["code"] = code,
+                ["redirect_uri"] = redirectUri!
             };
             
-            var jsonContent = JsonSerializer.Serialize(tokenRequest);
+            var jsonContent = JsonSerializer.Serialize(requestBody);
+            
+            // FIXED: Calculate signature correctly for token exchange
+            var signString = clientId + timestamp + jsonContent;
+            var sign = ComputeHmacSha256(signString, clientSecret!);
             
             var request = new HttpRequestMessage(HttpMethod.Post, "/v1.0/oauth2/token")
             {
@@ -257,10 +260,21 @@ namespace SmartHomeDashboard.Services
             request.Headers.Add("t", timestamp);
             request.Headers.Add("sign_method", "HMAC-SHA256");
 
-            var response = await _httpClient.SendAsync(request);
-            var content = await response.Content.ReadAsStringAsync();
-            
-            return JsonSerializer.Deserialize<TuyaTokenResponse>(content) ?? new TuyaTokenResponse();
+            try
+            {
+                var response = await _httpClient.SendAsync(request);
+                var content = await response.Content.ReadAsStringAsync();
+                
+                _logger.LogInformation("Token exchange response: {Content}", content);
+                
+                var tokenResponse = JsonSerializer.Deserialize<TuyaTokenResponse>(content);
+                return tokenResponse ?? new TuyaTokenResponse();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error exchanging code for token");
+                return new TuyaTokenResponse();
+            }
         }
 
         private void AddAuthHeaders(HttpRequestMessage request, string token, string timestamp, string? body = null)

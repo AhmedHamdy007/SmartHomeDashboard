@@ -103,7 +103,7 @@ namespace SmartHomeDashboard.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
-        // 🔑 API INTEGRATION POINT: Tuya OAuth Integration
+        // 🔑 API INTEGRATION POINT: Tuya OAuth Integration - FIXED
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> LinkTuyaAccount()
@@ -111,51 +111,100 @@ namespace SmartHomeDashboard.Controllers
             var state = Guid.NewGuid().ToString();
             HttpContext.Session.SetString("TuyaOAuthState", state);
             
+            _logger.LogInformation("Initiating Tuya OAuth with state: {State}", state);
+            
             var authUrl = await _tuyaApiService.GetTuyaAuthUrlAsync(state);
+            
+            _logger.LogInformation("Redirecting to Tuya auth URL: {AuthUrl}", authUrl);
+            
             return Redirect(authUrl);
         }
 
+        // FIXED: Changed route to match the configured redirect URI
         [HttpGet]
+        [Route("Auth/Tuya/Callback")]
         [Authorize]
         public async Task<IActionResult> TuyaCallback(string code, string state)
         {
+            _logger.LogInformation("Tuya callback received with code: {Code}, state: {State}", 
+                code?.Substring(0, Math.Min(code.Length, 10)) + "...", state);
+
             try
             {
+                // Validate state parameter
                 var sessionState = HttpContext.Session.GetString("TuyaOAuthState");
-                if (sessionState != state)
+                if (string.IsNullOrEmpty(sessionState) || sessionState != state)
                 {
-                    return BadRequest("Invalid state parameter");
+                    _logger.LogWarning("Invalid state parameter. Session: {SessionState}, Received: {ReceivedState}", 
+                        sessionState, state);
+                    TempData["Error"] = "Invalid authorization state. Please try again.";
+                    return RedirectToAction("Index", "Home");
                 }
 
+                // Check if code is present
+                if (string.IsNullOrEmpty(code))
+                {
+                    _logger.LogWarning("No authorization code received from Tuya");
+                    TempData["Error"] = "No authorization code received. Please try again.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                // Exchange code for token
                 var tokenResponse = await _tuyaApiService.ExchangeCodeForTokenAsync(code);
                 
-                if (tokenResponse.Success)
+                if (tokenResponse.Success && tokenResponse.Result != null)
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
                     var user = await _userManager.FindByIdAsync(userId);
                     
                     if (user != null)
                     {
+                        // Store Tuya user information
                         user.TuyaUserId = tokenResponse.Result.Uid;
                         user.TuyaAccessToken = tokenResponse.Result.AccessToken;
                         user.TuyaTokenExpiry = DateTime.UtcNow.AddSeconds(tokenResponse.Result.ExpireTime);
                         user.TuyaRefreshToken = tokenResponse.Result.RefreshToken;
                         
-                        await _userManager.UpdateAsync(user);
+                        var updateResult = await _userManager.UpdateAsync(user);
                         
-                        TempData["Success"] = "Tuya account linked successfully!";
+                        if (updateResult.Succeeded)
+                        {
+                            _logger.LogInformation("Successfully linked Tuya account for user {UserId}", userId);
+                            TempData["Success"] = "Tuya account linked successfully!";
+                        }
+                        else
+                        {
+                            _logger.LogError("Failed to update user with Tuya information: {Errors}", 
+                                string.Join(", ", updateResult.Errors.Select(e => e.Description)));
+                            TempData["Error"] = "Failed to save Tuya account information.";
+                        }
+                        
                         return RedirectToAction("Index", "Home");
                     }
+                    else
+                    {
+                        _logger.LogError("User not found with ID: {UserId}", userId);
+                        TempData["Error"] = "User account not found.";
+                    }
+                }
+                else
+                {
+                    _logger.LogError("Token exchange failed: {Message}", tokenResponse.Message);
+                    TempData["Error"] = $"Failed to link Tuya account: {tokenResponse.Message}";
                 }
 
-                TempData["Error"] = "Failed to link Tuya account. Please try again.";
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in Tuya OAuth callback");
-                TempData["Error"] = "An error occurred while linking your Tuya account.";
+                TempData["Error"] = "An error occurred while linking your Tuya account. Please try again.";
                 return RedirectToAction("Index", "Home");
+            }
+            finally
+            {
+                // Clean up session state
+                HttpContext.Session.Remove("TuyaOAuthState");
             }
         }
 

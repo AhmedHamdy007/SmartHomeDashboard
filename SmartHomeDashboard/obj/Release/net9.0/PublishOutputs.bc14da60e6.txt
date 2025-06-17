@@ -1,12 +1,6 @@
 C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\publish\SmartHomeDashboard.exe
-C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\publish\publish\web.config
 C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\publish\appsettings.Development.json
 C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\publish\appsettings.json
-C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\publish\publish\appsettings.Development.json
-C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\publish\publish\appsettings.json
-C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\publish\publish\SmartHomeDashboard.deps.json
-C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\publish\publish\SmartHomeDashboard.runtimeconfig.json
-C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\publish\publish\SmartHomeDashboard.staticwebassets.endpoints.json
 C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\publish\SmartHomeDashboard.dll
 C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\publish\SmartHomeDashboard.runtimeconfig.json
 C:\Users\Ahmed\Downloads\SMARTDASHBOARD\smarthomedashboard\publish\SmartHomeDashboard.pdb
